@@ -1,0 +1,1045 @@
+# Java HashMap - Complete Notes (Part 1)
+## Introduction, Internal Working & Implementation
+
+> **Topic:** Java Collections Framework - HashMap
+>
+> **Language:** Java 8+
+>
+> **Level:** Beginner to Advanced
+>
+> **Part:** 1
+
+---
+
+# Table of Contents
+
+1. What is Map?
+2. Why Map?
+3. What is HashMap?
+4. HashMap Hierarchy
+5. Features of HashMap
+6. Creating HashMap
+7. Real-Life Examples
+8. Internal Working of HashMap
+9. Hashing
+10. hashCode()
+11. Bucket
+12. Index Calculation
+13. Collision
+14. Separate Chaining
+15. Treeification (Java 8)
+16. Capacity
+17. Load Factor
+18. Threshold
+19. Rehashing
+20. Internal Structure of HashMap
+21. Time Complexity
+22. Interview Questions
+
+---
+
+# What is Map?
+
+A **Map** is a data structure that stores data in the form of **Key-Value pairs**.
+
+Every key is unique.
+
+One key points to exactly one value.
+
+```
+Key        Value
+
+101  --->  Akash
+102  --->  Rahul
+103  --->  Aman
+```
+
+Unlike List or Set, Map stores **two objects together**.
+
+---
+
+# Why Map?
+
+Suppose we store student names inside an ArrayList.
+
+```java
+ArrayList<String> list = new ArrayList<>();
+
+list.add("Akash");
+list.add("Rahul");
+list.add("Aman");
+```
+
+Now imagine we want to find
+
+```
+Student ID = 102
+```
+
+The list has no relation between ID and Name.
+
+We need another structure.
+
+```
+101 -> Akash
+
+102 -> Rahul
+
+103 -> Aman
+```
+
+This is exactly what Map provides.
+
+---
+
+# What is HashMap?
+
+HashMap is the most commonly used implementation of the **Map Interface**.
+
+It stores
+
+```
+<Key, Value>
+```
+
+Example
+
+```java
+HashMap<Integer,String> students = new HashMap<>();
+```
+
+```
+101 -> Akash
+
+102 -> Rahul
+
+103 -> Aman
+```
+
+---
+
+# HashMap Hierarchy
+
+```
+                 Iterable
+                     │
+                Collection
+                     │
+                  Map (Interface)
+                     │
+      -----------------------------------
+      │                │               │
+   HashMap       LinkedHashMap      TreeMap
+      │
+WeakHashMap
+```
+
+---
+
+# Features of HashMap
+
+✔ Stores Key-Value Pair
+
+✔ Keys are Unique
+
+✔ Values can be Duplicate
+
+✔ One Null Key Allowed
+
+✔ Multiple Null Values Allowed
+
+✔ Not Synchronized
+
+✔ Fast Searching
+
+✔ Uses Hashing
+
+✔ Order is NOT guaranteed
+
+---
+
+# Example
+
+```java
+HashMap<Integer,String> map = new HashMap<>();
+
+map.put(101,"Akash");
+map.put(102,"Rahul");
+map.put(103,"Aman");
+
+System.out.println(map);
+```
+
+Possible Output
+
+```
+{101=Akash,102=Rahul,103=Aman}
+```
+
+Order may change.
+
+---
+
+# Duplicate Keys
+
+```java
+HashMap<Integer,String> map = new HashMap<>();
+
+map.put(101,"Akash");
+
+map.put(101,"Rohit");
+
+System.out.println(map);
+```
+
+Output
+
+```
+{101=Rohit}
+```
+
+Why?
+
+Because Keys are unique.
+
+Old value is replaced.
+
+---
+
+# Duplicate Values
+
+```java
+HashMap<Integer,String> map = new HashMap<>();
+
+map.put(101,"Java");
+
+map.put(102,"Java");
+
+map.put(103,"Java");
+
+System.out.println(map);
+```
+
+Output
+
+```
+{101=Java,102=Java,103=Java}
+```
+
+Values can repeat.
+
+---
+
+# Null Key
+
+Only ONE null key is allowed.
+
+```java
+HashMap<Integer,String> map = new HashMap<>();
+
+map.put(null,"Java");
+
+map.put(null,"Python");
+
+System.out.println(map);
+```
+
+Output
+
+```
+{null=Python}
+```
+
+The previous value is replaced because the key is the same (`null`).
+
+---
+
+# Null Values
+
+```java
+HashMap<Integer,String> map = new HashMap<>();
+
+map.put(101,null);
+
+map.put(102,null);
+
+System.out.println(map);
+```
+
+Output
+
+```
+{101=null,102=null}
+```
+
+Multiple null values are allowed.
+
+---
+
+# Creating HashMap
+
+## Method 1
+
+```java
+HashMap<Integer,String> map =
+new HashMap<>();
+```
+
+---
+
+## Method 2
+
+Using Map Interface
+
+```java
+Map<Integer,String> map =
+new HashMap<>();
+```
+
+Recommended because it supports polymorphism.
+
+---
+
+# Real-Life Examples
+
+## Student Database
+
+```
+Roll No -> Name
+```
+
+```
+101 -> Akash
+
+102 -> Rahul
+
+103 -> Aman
+```
+
+---
+
+## Employee Database
+
+```
+Employee ID -> Employee Name
+```
+
+---
+
+## Phone Book
+
+```
+Name -> Phone Number
+```
+
+---
+
+## Country Codes
+
+```
+IN -> India
+
+US -> United States
+
+JP -> Japan
+```
+
+---
+
+# Internal Working of HashMap
+
+This is the most important interview topic.
+
+Whenever we execute
+
+```java
+map.put(101,"Akash");
+```
+
+HashMap does **NOT** simply store the value.
+
+It performs several steps internally.
+
+```
+put(key,value)
+
+↓
+
+Calculate hashCode()
+
+↓
+
+Convert hash into Bucket Index
+
+↓
+
+Go to Bucket
+
+↓
+
+Store Node
+```
+
+---
+
+# Step 1 : Key is Given
+
+```
+Key = 101
+
+Value = Akash
+```
+
+---
+
+# Step 2 : hashCode()
+
+HashMap calls
+
+```java
+key.hashCode()
+```
+
+Suppose
+
+```
+hashCode = 101
+```
+
+For String keys
+
+```
+"Java".hashCode()
+
+↓
+
+2301506
+```
+
+The actual hash code is generated by the `hashCode()` implementation of the key's class.
+
+---
+
+# Step 3 : Hash Function
+
+HashMap applies a hash spreading function to reduce collisions.
+
+Simplified representation:
+
+```text
+hash = hashCode ^ (hashCode >>> 16)
+```
+
+This mixes the higher bits with the lower bits before calculating the bucket index.
+
+---
+
+# Step 4 : Bucket Index
+
+HashMap calculates the bucket index.
+
+Internally (simplified)
+
+```text
+Index = hash % capacity
+```
+
+In modern Java, because capacity is always a power of two, it efficiently computes:
+
+```text
+Index = (capacity - 1) & hash
+```
+
+Suppose
+
+```
+Capacity = 16
+
+Hash = 101
+```
+
+```
+Index = 101 % 16
+
+= 5
+```
+
+or equivalently with bit masking when capacity is 16.
+
+So the data goes into
+
+```
+Bucket Number 5
+```
+
+---
+
+# Buckets
+
+Initially HashMap contains multiple buckets.
+
+```
+Bucket 0
+
+Bucket 1
+
+Bucket 2
+
+Bucket 3
+
+Bucket 4
+
+Bucket 5
+
+Bucket 6
+
+...
+
+Bucket 15
+```
+
+Default Capacity
+
+```
+16 Buckets
+```
+
+---
+
+# Insertion
+
+Suppose
+
+```
+Key = 101
+
+Index = 5
+```
+
+Then
+
+```
+Bucket 5
+
+↓
+
+101 = Akash
+```
+
+---
+
+# Internal Representation
+
+```
+Bucket
+
+0
+
+1
+
+2
+
+3
+
+4
+
+5
+
+↓
+
+101 = Akash
+
+6
+
+7
+
+8
+
+9
+
+10
+
+11
+
+12
+
+13
+
+14
+
+15
+```
+
+---
+
+# What is a Node?
+
+HashMap stores data inside **Node** objects.
+
+Each node contains:
+
+```
+Node
+
+↓
+
+Hash
+
+↓
+
+Key
+
+↓
+
+Value
+
+↓
+
+Next
+```
+
+Equivalent structure (simplified):
+
+```java
+class Node<K, V> {
+    int hash;
+    K key;
+    V value;
+    Node<K, V> next;
+}
+```
+
+The `next` reference is used when multiple entries are stored in the same bucket.
+
+---
+
+# Collision
+
+Sometimes
+
+Two different keys
+
+produce
+
+the same bucket.
+
+Example
+
+```
+Key = 101
+
+↓
+
+Bucket 5
+
+Key = 117
+
+↓
+
+Bucket 5
+```
+
+This is called
+
+# Collision
+
+---
+
+# Why Collision Happens?
+
+Because
+
+```
+Thousands of keys
+
+↓
+
+Only 16 buckets
+```
+
+Many keys will eventually map to the same bucket.
+
+---
+
+# Separate Chaining
+
+Java stores collided elements as a linked structure inside the same bucket.
+
+```
+Bucket 5
+
+↓
+
+101 = Akash
+
+↓
+
+117 = Rahul
+
+↓
+
+133 = Aman
+```
+
+Each node points to the next node using the `next` reference.
+
+---
+
+# Searching During Collision
+
+Suppose
+
+```
+Find Key = 117
+```
+
+HashMap
+
+```
+Calculates Hash
+
+↓
+
+Bucket 5
+
+↓
+
+Checks
+
+101
+
+↓
+
+No
+
+↓
+
+117
+
+↓
+
+Found
+```
+
+---
+
+# Java 8 Improvement
+
+Before Java 8
+
+Collisions were stored only as
+
+```
+Linked List
+```
+
+If many elements collided
+
+Searching became
+
+```
+O(n)
+```
+
+---
+
+# Treeification
+
+Java 8 introduced **Treeification**.
+
+If
+
+```
+Number of Nodes >= 8
+
+AND
+
+Table Capacity >= 64
+```
+
+then the linked list is converted into a **Red-Black Tree**.
+
+```
+Before
+
+Node
+
+↓
+
+Node
+
+↓
+
+Node
+
+↓
+
+Node
+
+↓
+
+Node
+
+↓
+
+Node
+
+↓
+
+Node
+
+↓
+
+Node
+```
+
+becomes
+
+```
+          40
+         /  \
+       20    60
+      / \    / \
+    10 30 50 70
+```
+
+Searching improves from
+
+```
+O(n)
+
+↓
+
+O(log n)
+```
+
+This significantly improves performance when many collisions occur.
+
+---
+
+# Capacity
+
+Capacity means
+
+```
+Total Buckets
+```
+
+Default Capacity
+
+```
+16
+```
+
+Can be customized
+
+```java
+HashMap<Integer,String> map =
+new HashMap<>(32);
+```
+
+Now
+
+```
+Total Buckets = 32
+```
+
+---
+
+# Load Factor
+
+Default Load Factor
+
+```
+0.75
+```
+
+Meaning
+
+```
+75%
+
+of buckets can be filled
+
+before resizing occurs.
+```
+
+---
+
+# Threshold
+
+Threshold is calculated as:
+
+```
+Threshold = Capacity × Load Factor
+```
+
+Example
+
+```
+Capacity = 16
+
+Load Factor = 0.75
+
+Threshold
+
+16 × 0.75
+
+= 12
+```
+
+So after inserting the **13th element**, the table is resized.
+
+---
+
+# Rehashing
+
+Suppose
+
+```
+Capacity = 16
+```
+
+After the threshold is exceeded
+
+```
+Capacity
+
+16
+
+↓
+
+32
+```
+
+Every existing entry is rehashed and redistributed into the new bucket array.
+
+This process is called
+
+# Rehashing
+
+---
+
+# Complete Internal Flow
+
+```
+put(101,"Akash")
+
+        │
+        ▼
+hashCode()
+
+        │
+        ▼
+Hash Function
+
+        │
+        ▼
+Bucket Index
+
+        │
+        ▼
+Check Bucket
+
+        │
+        ▼
+Empty ?
+     /       \
+   Yes       No
+   │          │
+   ▼          ▼
+Store      Collision
+Node         │
+             ▼
+      Linked List
+             │
+             ▼
+     Red Black Tree
+```
+
+---
+
+# Time Complexity
+
+| Operation | Average | Worst Case |
+|-----------|----------|------------|
+| put() | O(1) | O(log n)* |
+| get() | O(1) | O(log n)* |
+| remove() | O(1) | O(log n)* |
+| containsKey() | O(1) | O(log n)* |
+
+> *Worst-case assumes treeified buckets (Java 8+). Without treeification, a heavily collided bucket could degrade to O(n).
+
+---
+
+# Interview Questions
+
+### Q1 What is HashMap?
+
+A HashMap is a Map implementation that stores data in key-value pairs and uses hashing for fast access.
+
+---
+
+### Q2 Why are keys unique?
+
+Each key identifies exactly one value. Inserting the same key again replaces the previous value.
+
+---
+
+### Q3 Can HashMap store duplicate values?
+
+✅ Yes
+
+---
+
+### Q4 Can HashMap store duplicate keys?
+
+❌ No
+
+---
+
+### Q5 How many null keys are allowed?
+
+One null key.
+
+---
+
+### Q6 How many null values are allowed?
+
+Multiple null values.
+
+---
+
+### Q7 What is Collision?
+
+When two different keys map to the same bucket.
+
+---
+
+### Q8 What is Treeification?
+
+Converting a long collision chain from a linked list into a Red-Black Tree to improve search performance.
+
+---
+
+### Q9 What is the default capacity?
+
+16
+
+---
+
+### Q10 What is the default load factor?
+
+0.75 (75%)
+
+---
+
+# Summary
+
+- `HashMap` stores **key-value pairs**.
+- Keys are **unique**, while values may be duplicated.
+- It uses **hashing** to locate buckets quickly.
+- Each bucket stores **Node** objects.
+- Collisions are handled using **separate chaining**.
+- In Java 8+, long collision chains become **Red-Black Trees**.
+- The default capacity is **16**, the default load factor is **0.75**, and resizing occurs through **rehashing** when the threshold is exceeded.
