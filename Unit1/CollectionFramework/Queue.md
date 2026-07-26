@@ -1,117 +1,118 @@
-# Java Queue Interface - Complete Notes
+# Java Queue Framework - Complete Notes
+## Queue, PriorityQueue, Deque, ArrayDeque & LinkedList
 
-> **Topic:** Queue Interface in Java Collection Framework  
-> **Language:** Java 8+  
-> **Level:** Beginner to Advanced
+> **Topic:** Java Collections Framework - Queue Family
+>
+> **Language:** Java 8+
+>
+> **Level:** Beginner → Advanced
+>
+> **Objective:** Learn every Queue implementation, its internal working, methods, and real-world usage.
 
 ---
 
 # Table of Contents
 
-1. Introduction
+```
+1. Introduction to Queue
 2. Queue Hierarchy
-3. Queue Implementations
-4. Creating Queue Objects
-5. Queue Methods
-6. Collection Methods Inherited
+3. Queue Interface
+4. Queue Implementations
+5. Queue Interface Methods
+6. Collection Methods
 7. Traversing Queue
-8. Queue vs Deque
-9. Time Complexity
-10. Interview Questions
-
----
-
-# What is Queue?
-
-A **Queue** is a linear data structure that follows the **FIFO (First In First Out)** principle.
-
-The element inserted first will be removed first.
-
-Example:
-
+8. PriorityQueue
+9. PriorityQueue Internal Working
+10. PriorityQueue Constructors
+11. PriorityQueue Methods
+12. PriorityQueue Practical Examples
+13. Deque Interface
+14. Deque Methods
+15. ArrayDeque
+16. ArrayDeque Internal Working
+17. ArrayDeque Methods
+18. LinkedList as Queue & Deque
+19. LinkedList Internal Working
+20. Queue vs Deque vs PriorityQueue
+21. Time Complexity
+22. Best Practices
+23. Interview Questions
 ```
-Insertion
-
-A
-B
-C
-D
-
-Removal
-
-A
-B
-C
-D
-```
-
-Real Life Examples
-
-- Ticket Counter
-- Printer Queue
-- CPU Scheduling
-- Call Center
-- Food Ordering System
 
 ---
 
 # Queue Hierarchy
 
 ```
-                 Iterable
-                     │
-                Collection
-                     │
-                 Queue<E>
-               /          \
-          Deque<E>     PriorityQueue
-             │
-      -----------------
-      │               │
- ArrayDeque      LinkedList
+                    Iterable
+                        │
+                   Collection
+                        │
+                    Queue<E>
+                  /           \
+             Deque<E>     PriorityQueue<E>
+                │
+      -------------------------
+      │                       │
+ ArrayDeque<E>          LinkedList<E>
 ```
+
+---
+
+# Queue Interface
+
+Queue is a **Collection Interface** that follows the
+
+# FIFO (First In First Out)
+
+principle.
+
+```
+Insert
+
+A
+B
+C
+D
+
+↓
+
+Remove
+
+A
+B
+C
+D
+```
+
+---
+
+# Real Life Examples
+
+- Printer Queue
+- Ticket Counter
+- CPU Scheduling
+- Restaurant Order Queue
+- Hospital Token System
+- BFS Algorithm
+- Task Scheduling
+- Message Queues
 
 ---
 
 # Queue Implementations
 
-| Class | Order | Duplicate | Null |
-|---------|-------|-----------|------|
-| LinkedList | FIFO | Yes | Yes |
-| ArrayDeque | FIFO | Yes | No |
-| PriorityQueue | Priority Order | Yes | One null not allowed |
+| Class | Ordering | Internal Structure | Null Allowed |
+|---------|-----------|-------------------|--------------|
+| LinkedList | FIFO | Doubly Linked List | Yes |
+| ArrayDeque | FIFO | Circular Array | No |
+| PriorityQueue | Priority Order | Binary Heap | No |
 
 ---
 
-# Creating Queue
+# Queue Interface Methods
 
-## Using LinkedList
-
-```java
-Queue<String> queue = new LinkedList<>();
-```
-
----
-
-## Using ArrayDeque
-
-```java
-Queue<Integer> queue = new ArrayDeque<>();
-```
-
----
-
-## Using PriorityQueue
-
-```java
-Queue<Integer> queue = new PriorityQueue<>();
-```
-
----
-
-# Queue Methods
-
-Queue provides six important methods.
+Queue defines six primary methods.
 
 | Operation | Throws Exception | Returns Special Value |
 |------------|------------------|------------------------|
@@ -121,557 +122,83 @@ Queue provides six important methods.
 
 ---
 
-# 1. add()
+# Queue Methods
 
-Adds an element into the queue.
-
-Returns **true** if successful.
-
-Throws Exception if insertion fails.
+## Insert
 
 ```java
-import java.util.*;
+add(E element)
 
-public class Main {
-
-    public static void main(String[] args) {
-
-        Queue<String> queue = new LinkedList<>();
-
-        queue.add("Java");
-        queue.add("Python");
-        queue.add("C++");
-
-        System.out.println(queue);
-    }
-}
-```
-
-Output
-
-```
-[Java, Python, C++]
+offer(E element)
 ```
 
 ---
 
-# 2. offer()
-
-Safely inserts an element.
-
-Returns **true** or **false**.
+## Remove
 
 ```java
-Queue<String> queue = new LinkedList<>();
+remove()
 
-System.out.println(queue.offer("Java"));
-System.out.println(queue.offer("Python"));
-
-System.out.println(queue);
-```
-
-Output
-
-```
-true
-true
-
-[Java, Python]
-```
-
-Difference
-
-```
-add()   → throws Exception
-
-offer() → returns false
+poll()
 ```
 
 ---
 
-# 3. remove()
-
-Removes the front element.
-
-Throws Exception if queue is empty.
+## Read Head
 
 ```java
-Queue<String> queue = new LinkedList<>();
+element()
 
-queue.offer("Java");
-queue.offer("Python");
-queue.offer("C++");
-
-System.out.println(queue.remove());
-
-System.out.println(queue);
-```
-
-Output
-
-```
-Java
-
-[Python, C++]
+peek()
 ```
 
 ---
 
-# 4. poll()
+# Collection Methods
 
-Safely removes first element.
-
-Returns **null** if queue is empty.
-
-```java
-Queue<String> queue = new LinkedList<>();
-
-queue.offer("Java");
-queue.offer("Python");
-
-System.out.println(queue.poll());
-
-System.out.println(queue);
-```
-
-Output
+Queue inherits every Collection method.
 
 ```
-Java
+addAll()
 
-[Python]
-```
+contains()
 
-Difference
+containsAll()
 
-```
-remove() → Exception
+removeAll()
 
-poll() → null
-```
+retainAll()
 
----
+removeIf()
 
-# 5. element()
+iterator()
 
-Returns first element.
+forEach()
 
-Does not remove it.
+stream()
 
-Throws Exception if queue is empty.
+parallelStream()
 
-```java
-Queue<String> queue = new LinkedList<>();
+spliterator()
 
-queue.offer("Java");
-queue.offer("Python");
+size()
 
-System.out.println(queue.element());
+clear()
 
-System.out.println(queue);
-```
+isEmpty()
 
-Output
+toArray()
 
-```
-Java
+equals()
 
-[Java, Python]
-```
-
----
-
-# 6. peek()
-
-Returns first element.
-
-Does not remove it.
-
-Returns **null** if queue is empty.
-
-```java
-Queue<String> queue = new LinkedList<>();
-
-queue.offer("Java");
-queue.offer("Python");
-
-System.out.println(queue.peek());
-
-System.out.println(queue);
-```
-
-Output
-
-```
-Java
-
-[Java, Python]
-```
-
-Difference
-
-```
-element() → Exception
-
-peek() → null
-```
-
----
-
-# Collection Methods Available in Queue
-
-Since Queue extends Collection, these methods are inherited.
-
----
-
-# addAll()
-
-```java
-Queue<Integer> q1 = new LinkedList<>();
-q1.offer(10);
-q1.offer(20);
-
-Queue<Integer> q2 = new LinkedList<>();
-q2.offer(30);
-q2.offer(40);
-
-q1.addAll(q2);
-
-System.out.println(q1);
-```
-
-Output
-
-```
-[10, 20, 30, 40]
-```
-
----
-
-# contains()
-
-```java
-Queue<String> queue = new LinkedList<>();
-
-queue.offer("Java");
-queue.offer("Python");
-
-System.out.println(queue.contains("Python"));
-```
-
-Output
-
-```
-true
-```
-
----
-
-# containsAll()
-
-```java
-Queue<Integer> queue = new LinkedList<>();
-
-queue.addAll(Arrays.asList(10,20,30));
-
-System.out.println(
-queue.containsAll(Arrays.asList(10,20))
-);
-```
-
-Output
-
-```
-true
-```
-
----
-
-# removeAll()
-
-```java
-Queue<Integer> queue = new LinkedList<>();
-
-queue.addAll(Arrays.asList(10,20,30,40));
-
-queue.removeAll(Arrays.asList(20,40));
-
-System.out.println(queue);
-```
-
-Output
-
-```
-[10, 30]
-```
-
----
-
-# retainAll()
-
-```java
-Queue<Integer> queue = new LinkedList<>();
-
-queue.addAll(Arrays.asList(10,20,30,40));
-
-queue.retainAll(Arrays.asList(20,40));
-
-System.out.println(queue);
-```
-
-Output
-
-```
-[20, 40]
-```
-
----
-
-# clear()
-
-```java
-Queue<Integer> queue = new LinkedList<>();
-
-queue.offer(10);
-queue.offer(20);
-
-queue.clear();
-
-System.out.println(queue);
-```
-
-Output
-
-```
-[]
-```
-
----
-
-# size()
-
-```java
-Queue<Integer> queue = new LinkedList<>();
-
-queue.offer(10);
-queue.offer(20);
-
-System.out.println(queue.size());
-```
-
-Output
-
-```
-2
-```
-
----
-
-# isEmpty()
-
-```java
-Queue<String> queue = new LinkedList<>();
-
-System.out.println(queue.isEmpty());
-
-queue.offer("Java");
-
-System.out.println(queue.isEmpty());
-```
-
-Output
-
-```
-true
-
-false
-```
-
----
-
-# iterator()
-
-```java
-Queue<String> queue = new LinkedList<>();
-
-queue.offer("Java");
-queue.offer("Python");
-queue.offer("C++");
-
-Iterator<String> itr = queue.iterator();
-
-while(itr.hasNext())
-{
-    System.out.println(itr.next());
-}
-```
-
----
-
-# toArray()
-
-```java
-Queue<String> queue = new LinkedList<>();
-
-queue.offer("Java");
-queue.offer("Python");
-
-Object arr[] = queue.toArray();
-
-System.out.println(Arrays.toString(arr));
-```
-
-Output
-
-```
-[Java, Python]
-```
-
----
-
-# toArray(T[])
-
-```java
-String arr[] = queue.toArray(new String[0]);
-
-System.out.println(Arrays.toString(arr));
-```
-
----
-
-# forEach()
-
-```java
-Queue<String> queue = new LinkedList<>();
-
-queue.offer("Java");
-queue.offer("Python");
-queue.offer("C++");
-
-queue.forEach(System.out::println);
-```
-
-Equivalent
-
-```java
-queue.forEach(
-element ->
-System.out.println(element)
-);
-```
-
----
-
-# removeIf()
-
-```java
-Queue<Integer> queue = new LinkedList<>();
-
-queue.addAll(Arrays.asList(10,15,20,25));
-
-queue.removeIf(
-x -> x % 2 == 0
-);
-
-System.out.println(queue);
-```
-
-Output
-
-```
-[15, 25]
-```
-
----
-
-# stream()
-
-```java
-Queue<Integer> queue = new LinkedList<>();
-
-queue.addAll(Arrays.asList(10,20,30,40));
-
-queue.stream()
-.filter(x -> x > 20)
-.forEach(System.out::println);
-```
-
-Output
-
-```
-30
-40
-```
-
----
-
-# parallelStream()
-
-```java
-Queue<Integer> queue = new LinkedList<>();
-
-queue.addAll(Arrays.asList(10,20,30,40));
-
-queue.parallelStream()
-.forEach(System.out::println);
-```
-
-Output order is **not guaranteed**.
-
----
-
-# spliterator()
-
-```java
-Queue<String> queue = new LinkedList<>();
-
-queue.offer("Java");
-queue.offer("Python");
-
-Spliterator<String> sp =
-queue.spliterator();
-
-sp.forEachRemaining(System.out::println);
-```
-
----
-
-# equals()
-
-```java
-Queue<Integer> q1 = new LinkedList<>();
-q1.addAll(Arrays.asList(10,20));
-
-Queue<Integer> q2 = new LinkedList<>();
-q2.addAll(Arrays.asList(10,20));
-
-System.out.println(q1.equals(q2));
-```
-
-Output
-
-```
-true
-```
-
----
-
-# hashCode()
-
-```java
-Queue<Integer> queue = new LinkedList<>();
-
-queue.offer(10);
-queue.offer(20);
-
-System.out.println(queue.hashCode());
+hashCode()
 ```
 
 ---
 
 # Traversing Queue
 
-## Enhanced For Loop
+## For Loop
 
 ```java
 for(String value : queue)
@@ -712,66 +239,798 @@ queue.stream()
 
 ---
 
+# PriorityQueue
+
+PriorityQueue **does NOT follow FIFO.**
+
+It follows
+
+```
+Priority
+```
+
+By default
+
+```
+Smallest Element
+
+↓
+
+Highest Priority
+```
+
+---
+
+## Example
+
+```java
+PriorityQueue<Integer> pq =
+new PriorityQueue<>();
+
+pq.offer(50);
+pq.offer(10);
+pq.offer(40);
+pq.offer(5);
+
+System.out.println(pq);
+```
+
+Output
+
+```
+[5,10,40,50]
+```
+
+---
+
+# Internal Working
+
+PriorityQueue uses
+
+```
+Binary Heap
+```
+
+Internally
+
+```
+           5
+         /   \
+       10     40
+      /
+    50
+```
+
+The smallest element always stays at the root.
+
+---
+
+# PriorityQueue Constructors
+
+```java
+PriorityQueue<Integer> pq =
+new PriorityQueue<>();
+```
+
+---
+
+```java
+PriorityQueue<Integer> pq =
+new PriorityQueue<>(20);
+```
+
+---
+
+```java
+PriorityQueue<Integer> pq =
+new PriorityQueue<>(Collections.reverseOrder());
+```
+
+Creates Max Heap.
+
+---
+
+```java
+PriorityQueue<Student> pq =
+new PriorityQueue<>(
+(a,b)->a.age-b.age
+);
+```
+
+Custom Comparator.
+
+---
+
+# PriorityQueue Methods
+
+```
+offer()
+
+add()
+
+poll()
+
+remove()
+
+peek()
+
+element()
+
+contains()
+
+size()
+
+clear()
+
+iterator()
+
+stream()
+
+forEach()
+```
+
+---
+
+# PriorityQueue Example
+
+```java
+PriorityQueue<Integer> pq =
+new PriorityQueue<>();
+
+pq.offer(30);
+pq.offer(10);
+pq.offer(20);
+
+while(!pq.isEmpty())
+{
+    System.out.println(pq.poll());
+}
+```
+
+Output
+
+```
+10
+
+20
+
+30
+```
+
+---
+
+# Max Heap
+
+```java
+PriorityQueue<Integer> pq =
+new PriorityQueue<>(
+Collections.reverseOrder()
+);
+
+pq.offer(30);
+pq.offer(10);
+pq.offer(50);
+
+while(!pq.isEmpty())
+{
+    System.out.println(pq.poll());
+}
+```
+
+Output
+
+```
+50
+
+30
+
+10
+```
+
+---
+
+# Deque Interface
+
+Deque means
+
+```
+Double Ended Queue
+```
+
+Insertion and deletion happen from
+
+```
+Front
+
+AND
+
+Rear
+```
+
+---
+
+# Deque Diagram
+
+```
+Front
+
+↓
+
+10 20 30 40
+
+↑
+
+Rear
+```
+
+---
+
+# Deque Methods
+
+## Front Operations
+
+```java
+addFirst()
+
+offerFirst()
+
+removeFirst()
+
+pollFirst()
+
+getFirst()
+
+peekFirst()
+```
+
+---
+
+## Rear Operations
+
+```java
+addLast()
+
+offerLast()
+
+removeLast()
+
+pollLast()
+
+getLast()
+
+peekLast()
+```
+
+---
+
+## Stack Operations
+
+```java
+push()
+
+pop()
+
+peek()
+```
+
+Deque can behave like
+
+- Queue
+- Stack
+
+---
+
+# ArrayDeque
+
+ArrayDeque implements
+
+```
+Deque
+```
+
+Internally it uses
+
+```
+Resizable Circular Array
+```
+
+---
+
+# Circular Array
+
+```
+Front
+
+↓
+
+10
+
+20
+
+30
+
+40
+
+↑
+
+Rear
+```
+
+When rear reaches the end
+
+it wraps around.
+
+```
+40
+
+↓
+
+10
+
+20
+
+30
+```
+
+---
+
+# Why ArrayDeque?
+
+Advantages
+
+✔ Faster than Stack
+
+✔ Faster than LinkedList
+
+✔ No Synchronization
+
+✔ Continuous Memory
+
+---
+
+# ArrayDeque Constructors
+
+```java
+ArrayDeque<Integer> dq =
+new ArrayDeque<>();
+```
+
+---
+
+```java
+ArrayDeque<Integer> dq =
+new ArrayDeque<>(20);
+```
+
+---
+
+# Queue Operations
+
+```java
+offer()
+
+poll()
+
+peek()
+```
+
+---
+
+# Deque Operations
+
+```java
+offerFirst()
+
+offerLast()
+
+pollFirst()
+
+pollLast()
+
+peekFirst()
+
+peekLast()
+```
+
+---
+
+# Stack Operations
+
+```java
+push()
+
+pop()
+
+peek()
+```
+
+---
+
+# Extra Methods
+
+```java
+descendingIterator()
+
+clone()
+
+contains()
+
+removeFirstOccurrence()
+
+removeLastOccurrence()
+```
+
+---
+
+# ArrayDeque Example
+
+```java
+ArrayDeque<Integer> dq =
+new ArrayDeque<>();
+
+dq.offerFirst(20);
+
+dq.offerLast(30);
+
+dq.offerFirst(10);
+
+System.out.println(dq);
+```
+
+Output
+
+```
+[10,20,30]
+```
+
+---
+
+# Stack Example
+
+```java
+ArrayDeque<Integer> stack =
+new ArrayDeque<>();
+
+stack.push(10);
+stack.push(20);
+stack.push(30);
+
+while(!stack.isEmpty())
+{
+    System.out.println(stack.pop());
+}
+```
+
+Output
+
+```
+30
+
+20
+
+10
+```
+
+LIFO behavior.
+
+---
+
+# LinkedList
+
+LinkedList implements
+
+```
+List
+
+Queue
+
+Deque
+```
+
+So it supports
+
+- List methods
+- Queue methods
+- Deque methods
+
+---
+
+# Internal Working
+
+LinkedList is implemented as
+
+```
+Doubly Linked List
+```
+
+```
+NULL
+
+↓
+
+Prev | Data | Next
+
+↓
+
+Prev | Data | Next
+
+↓
+
+Prev | Data | Next
+
+↓
+
+NULL
+```
+
+---
+
+# Queue Operations
+
+```java
+offer()
+
+poll()
+
+peek()
+```
+
+---
+
+# Deque Operations
+
+```java
+offerFirst()
+
+offerLast()
+
+pollFirst()
+
+pollLast()
+
+peekFirst()
+
+peekLast()
+```
+
+---
+
+# List Operations
+
+```java
+add()
+
+get()
+
+set()
+
+remove()
+
+subList()
+
+indexOf()
+
+lastIndexOf()
+
+listIterator()
+```
+
+---
+
+# Example
+
+```java
+LinkedList<String> list =
+new LinkedList<>();
+
+list.offer("Java");
+
+list.offer("Python");
+
+list.offerFirst("C++");
+
+list.offerLast("Go");
+
+System.out.println(list);
+```
+
+Output
+
+```
+[C++, Java, Python, Go]
+```
+
+---
+
+# Queue vs PriorityQueue vs Deque
+
+| Feature | Queue | PriorityQueue | Deque |
+|----------|--------|---------------|--------|
+| Order | FIFO | Priority | Both Ends |
+| Front Insert | No | No | Yes |
+| Rear Insert | Yes | Yes | Yes |
+| Front Remove | Yes | Yes | Yes |
+| Rear Remove | No | No | Yes |
+| Stack Support | No | No | Yes |
+
+---
+
+# Which One Should I Use?
+
+```
+Simple FIFO
+
+↓
+
+LinkedList
+```
+
+---
+
+```
+Fast Queue
+
+↓
+
+ArrayDeque
+```
+
+---
+
+```
+Priority Scheduling
+
+↓
+
+PriorityQueue
+```
+
+---
+
+```
+Queue + Stack
+
+↓
+
+Deque
+```
+
+---
+
 # Time Complexity
 
-| Method | Complexity |
-|----------|------------|
-| add() | O(1) |
-| offer() | O(1) |
-| remove() | O(1) |
-| poll() | O(1) |
-| peek() | O(1) |
-| element() | O(1) |
-| contains() | O(n) |
-| iterator() | O(n) |
+| Operation | LinkedList | ArrayDeque | PriorityQueue |
+|------------|------------|------------|---------------|
+| add() | O(1) | O(1) | O(log n) |
+| offer() | O(1) | O(1) | O(log n) |
+| remove() | O(1) | O(1) | O(log n) |
+| poll() | O(1) | O(1) | O(log n) |
+| peek() | O(1) | O(1) | O(1) |
+| contains() | O(n) | O(n) | O(n) |
+| iterator() | O(n) | O(n) | O(n) |
+
+---
+
+# Best Practices
+
+✅ Use the `Queue` interface for FIFO operations.
+
+```java
+Queue<Integer> queue =
+new LinkedList<>();
+```
+
+---
+
+✅ Use `ArrayDeque` instead of the legacy `Stack` class.
+
+---
+
+✅ Use `PriorityQueue` for scheduling and priority-based processing.
+
+---
+
+✅ Use `Deque` when insertion/removal from both ends is required.
 
 ---
 
 # Interview Questions
 
-### Q1 What is Queue?
+### Q1 Why is Queue called FIFO?
 
-A Queue follows FIFO (First In First Out).
-
----
-
-### Q2 Difference between add() and offer()?
-
-- `add()` throws an exception on failure.
-- `offer()` returns `false` on failure.
+The first element inserted is the first element removed.
 
 ---
 
-### Q3 Difference between remove() and poll()?
+### Q2 Which Queue implementation is the fastest?
 
-- `remove()` throws an exception if the queue is empty.
-- `poll()` returns `null` if the queue is empty.
+For general FIFO operations:
 
----
-
-### Q4 Difference between element() and peek()?
-
-- `element()` throws an exception if the queue is empty.
-- `peek()` returns `null` if the queue is empty.
+```
+ArrayDeque
+```
 
 ---
 
-### Q5 Which Queue maintains priority?
+### Q3 Why doesn't PriorityQueue follow FIFO?
 
-`PriorityQueue`
-
----
-
-### Q6 Which Queue is best for FIFO operations?
-
-- `LinkedList`
-- `ArrayDeque`
+Because elements are removed according to **priority (natural ordering or comparator)** rather than insertion order.
 
 ---
 
-# Summary
+### Q4 Can ArrayDeque be used as a Stack?
 
-- **Queue** follows FIFO.
-- Main implementations: **LinkedList**, **ArrayDeque**, **PriorityQueue**.
-- Six core methods: `add()`, `offer()`, `remove()`, `poll()`, `element()`, `peek()`.
-- Inherits all common `Collection` methods such as `addAll()`, `contains()`, `iterator()`, `stream()`, and more.
+Yes.
+
+It provides:
+
+```java
+push()
+
+pop()
+
+peek()
+```
+
+---
+
+### Q5 Which class implements both List and Queue?
+
+```
+LinkedList
+```
+
+---
+
+### Q6 Which implementation should be used for a task scheduler?
+
+```
+PriorityQueue
+```
+
+---
+
+### Q7 Which implementation should be used for browser history (forward/back)?
+
+```
+Deque (ArrayDeque)
+```
+
+---
+
+# Complete Queue Framework Summary
+
+```
+Queue
+│
+├── LinkedList
+│     ├── Queue
+│     ├── Deque
+│     └── List
+│
+├── ArrayDeque
+│     ├── Queue
+│     ├── Deque
+│     └── Stack Operations
+│
+└── PriorityQueue
+      ├── Binary Heap
+      ├── Min Heap
+      ├── Max Heap
+      └── Custom Comparator
+```
+
+---
+
+# Next Topics to Learn
+
+- BlockingQueue
+- ConcurrentLinkedQueue
+- DelayQueue
+- ArrayBlockingQueue
+- LinkedBlockingQueue
+- PriorityBlockingQueue
+- TransferQueue
+- SynchronousQueue
+
+These are part of **Java Concurrent Collections** and are commonly used in multithreading and enterprise applications.
