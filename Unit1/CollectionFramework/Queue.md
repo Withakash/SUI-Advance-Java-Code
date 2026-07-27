@@ -1037,6 +1037,8 @@ These are part of **Java Concurrent Collections** and are commonly used in multi
 
 
 
+
+
 # Java PriorityQueue - Constructors & Comparators (Complete Notes)
 
 > **Topic:** PriorityQueue Constructors & Comparator
@@ -1372,3 +1374,342 @@ Output
 ### Syntax
 
 ```java
+PriorityQueue<Integer> copy =
+new PriorityQueue<>(oldQueue);
+```
+
+### Example
+
+```java
+PriorityQueue<Integer> pq =
+new PriorityQueue<>();
+
+pq.add(30);
+pq.add(10);
+pq.add(20);
+
+PriorityQueue<Integer> copy =
+new PriorityQueue<>(pq);
+
+System.out.println(copy);
+```
+
+The new queue contains the same elements and ordering rules.
+
+---
+
+# What is a Comparator?
+
+A **Comparator** is an object that tells Java
+
+```
+How should two objects be compared?
+```
+
+Without Comparator
+
+```
+Java
+
+↓
+
+Natural Ordering
+```
+
+With Comparator
+
+```
+You Decide
+```
+
+---
+
+# Comparator Method
+
+```java
+compare(a,b)
+```
+
+Returns
+
+```
+Negative
+
+↓
+
+a comes first
+```
+
+```
+Positive
+
+↓
+
+b comes first
+```
+
+```
+Zero
+
+↓
+
+Both are equal
+```
+
+---
+
+# Example
+
+```java
+Comparator<Integer> comp =
+(a,b)->a-b;
+```
+
+Meaning
+
+```
+Small Number
+
+↓
+
+Higher Priority
+```
+
+---
+
+# Reverse Comparator
+
+```java
+Comparator<Integer> comp =
+(a,b)->b-a;
+```
+
+Meaning
+
+```
+Large Number
+
+↓
+
+Higher Priority
+```
+
+---
+
+# Lambda Comparator
+
+```java
+PriorityQueue<Integer> pq =
+new PriorityQueue<>(
+
+(a,b)->a-b
+
+);
+```
+
+Equivalent to
+
+```
+Ascending Order
+```
+
+---
+
+# Descending Comparator
+
+```java
+PriorityQueue<Integer> pq =
+new PriorityQueue<>(
+
+(a,b)->b-a
+
+);
+```
+
+Equivalent to
+
+```
+Descending Order
+```
+
+---
+
+# Comparator for Strings
+
+```java
+PriorityQueue<String> pq =
+new PriorityQueue<>(
+(a,b)->a.compareTo(b)
+);
+
+pq.offer("Java");
+pq.offer("Python");
+pq.offer("C");
+
+while(!pq.isEmpty())
+{
+    System.out.println(pq.poll());
+}
+```
+
+Output
+
+```
+C
+Java
+Python
+```
+
+---
+
+# Reverse String Order
+
+```java
+PriorityQueue<String> pq =
+new PriorityQueue<>(
+(a,b)->b.compareTo(a)
+);
+```
+
+Output
+
+```
+Python
+Java
+C
+```
+
+---
+
+# Comparator with Custom Objects
+
+## Student Class
+
+```java
+class Student
+{
+    int id;
+    String name;
+    int marks;
+
+    Student(int id,String name,int marks)
+    {
+        this.id=id;
+        this.name=name;
+        this.marks=marks;
+    }
+
+    @Override
+    public String toString()
+    {
+        return id+" "+name+" "+marks;
+    }
+}
+```
+
+---
+
+## Sort by Marks
+
+```java
+PriorityQueue<Student> pq =
+new PriorityQueue<>(
+
+(a,b)->a.marks-b.marks
+
+);
+
+pq.offer(new Student(1,"Akash",80));
+pq.offer(new Student(2,"Rahul",60));
+pq.offer(new Student(3,"Aman",95));
+
+while(!pq.isEmpty())
+{
+    System.out.println(pq.poll());
+}
+```
+
+Output
+
+```
+2 Rahul 60
+1 Akash 80
+3 Aman 95
+```
+
+---
+
+## Highest Marks First
+
+```java
+PriorityQueue<Student> pq =
+new PriorityQueue<>(
+
+(a,b)->b.marks-a.marks
+
+);
+```
+
+Output
+
+```
+3 Aman 95
+1 Akash 80
+2 Rahul 60
+```
+
+---
+
+# Comparator vs Comparable
+
+| Comparable | Comparator |
+|------------|------------|
+| Implemented inside the class | Implemented outside the class |
+| Uses `compareTo()` | Uses `compare()` |
+| One natural ordering | Multiple custom orderings |
+| Modifies the class | Doesn't modify the class |
+
+---
+
+# Summary of Constructors
+
+| Constructor | Meaning |
+|-------------|---------|
+| `new PriorityQueue<>()` | Default Min Heap with natural ordering |
+| `new PriorityQueue<>(capacity)` | Sets initial capacity |
+| `new PriorityQueue<>(Comparator)` | Uses custom ordering |
+| `new PriorityQueue<>(Collection)` | Creates from an existing collection |
+| `new PriorityQueue<>(PriorityQueue)` | Creates a copy of another priority queue |
+
+---
+
+# Interview Questions
+
+### Q1 Why does PriorityQueue not follow FIFO?
+
+Because elements are removed based on **priority**, not insertion order.
+
+---
+
+### Q2 What is the default ordering of PriorityQueue?
+
+Natural ordering (ascending for numbers), implemented as a **Min Heap**.
+
+---
+
+### Q3 What does `Collections.reverseOrder()` do?
+
+It provides a comparator that reverses the natural ordering, effectively creating a **Max Heap**.
+
+---
+
+### Q4 What is the difference between Comparable and Comparator?
+
+- **Comparable** defines one natural ordering inside the class.
+- **Comparator** allows multiple custom orderings outside the class.
+
+---
+
+### Q5 Does `System.out.println(pq)` print sorted elements?
+
+**No.** It prints the internal heap representation. To retrieve elements in priority order, repeatedly call `poll()`.
