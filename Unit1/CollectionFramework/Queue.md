@@ -1034,3 +1034,341 @@ Queue
 - SynchronousQueue
 
 These are part of **Java Concurrent Collections** and are commonly used in multithreading and enterprise applications.
+
+
+
+# Java PriorityQueue - Constructors & Comparators (Complete Notes)
+
+> **Topic:** PriorityQueue Constructors & Comparator
+>
+> **Language:** Java 8+
+>
+> **Level:** Beginner → Advanced
+
+---
+
+# Table of Contents
+
+1. What is PriorityQueue?
+2. How PriorityQueue Works
+3. Natural Ordering
+4. Constructors
+5. Comparator
+6. Min Heap
+7. Max Heap
+8. Custom Object Sorting
+9. Lambda Comparator
+10. Interview Questions
+
+---
+
+# What is PriorityQueue?
+
+A `PriorityQueue` is a Queue implementation that **does not follow FIFO**.
+
+Instead, it removes elements according to **priority**.
+
+By default, Java uses **Natural Ordering**.
+
+```
+Elements Added
+
+30
+10
+50
+20
+
+↓
+
+Removed
+
+10
+20
+30
+50
+```
+
+Smallest element gets the **highest priority**.
+
+---
+
+# Internal Working
+
+PriorityQueue internally uses a
+
+```
+Binary Heap
+```
+
+(Default: **Min Heap**)
+
+```
+        10
+       /  \
+     20    50
+    /
+   30
+```
+
+Root always contains the highest-priority element.
+
+---
+
+# Constructors of PriorityQueue
+
+Java provides several constructors.
+
+---
+
+# 1. Default Constructor
+
+### Syntax
+
+```java
+PriorityQueue<Integer> pq = new PriorityQueue<>();
+```
+
+### Meaning
+
+- Initial capacity = **11**
+- Natural ordering
+- Min Heap
+
+### Example
+
+```java
+PriorityQueue<Integer> pq = new PriorityQueue<>();
+
+pq.offer(30);
+pq.offer(10);
+pq.offer(50);
+pq.offer(20);
+
+System.out.println(pq);
+```
+
+Possible Output
+
+```
+[10, 20, 50, 30]
+```
+
+> **Note:** The printed order is **not sorted**. It represents the internal heap structure.
+
+To get sorted output:
+
+```java
+while(!pq.isEmpty())
+{
+    System.out.println(pq.poll());
+}
+```
+
+Output
+
+```
+10
+20
+30
+50
+```
+
+---
+
+# 2. Constructor with Initial Capacity
+
+### Syntax
+
+```java
+PriorityQueue<Integer> pq =
+new PriorityQueue<>(20);
+```
+
+### Meaning
+
+```
+Capacity = 20
+
+Natural Ordering
+
+Min Heap
+```
+
+The queue can grow beyond 20 if needed. The value **20** is only the initial capacity.
+
+### Example
+
+```java
+PriorityQueue<Integer> pq =
+new PriorityQueue<>(20);
+
+pq.add(100);
+pq.add(40);
+pq.add(60);
+
+System.out.println(pq.poll());
+```
+
+Output
+
+```
+40
+```
+
+---
+
+# Why Specify Capacity?
+
+Suppose you know you will insert
+
+```
+100000 elements
+```
+
+Instead of repeatedly resizing,
+
+```java
+PriorityQueue<Integer> pq =
+new PriorityQueue<>(100000);
+```
+
+improves performance by reducing reallocations.
+
+---
+
+# 3. Constructor Using Comparator
+
+### Syntax
+
+```java
+PriorityQueue<Integer> pq =
+new PriorityQueue<>(Comparator);
+```
+
+### Meaning
+
+The comparator decides
+
+```
+Which element has higher priority?
+```
+
+instead of natural ordering.
+
+---
+
+# Max Heap Example
+
+```java
+PriorityQueue<Integer> pq =
+new PriorityQueue<>(
+Collections.reverseOrder()
+);
+```
+
+### Meaning
+
+Normally
+
+```
+10
+
+20
+
+30
+
+40
+```
+
+Smallest comes first.
+
+Now
+
+```
+40
+
+30
+
+20
+
+10
+```
+
+Largest gets highest priority.
+
+---
+
+### Example
+
+```java
+PriorityQueue<Integer> pq =
+new PriorityQueue<>(
+Collections.reverseOrder()
+);
+
+pq.offer(10);
+pq.offer(50);
+pq.offer(30);
+pq.offer(20);
+
+while(!pq.isEmpty())
+{
+    System.out.println(pq.poll());
+}
+```
+
+Output
+
+```
+50
+30
+20
+10
+```
+
+---
+
+# 4. Constructor Using Another Collection
+
+### Syntax
+
+```java
+PriorityQueue<Integer> pq =
+new PriorityQueue<>(collection);
+```
+
+### Meaning
+
+Creates a PriorityQueue from an existing collection.
+
+### Example
+
+```java
+List<Integer> list =
+Arrays.asList(50,10,30,20);
+
+PriorityQueue<Integer> pq =
+new PriorityQueue<>(list);
+
+while(!pq.isEmpty())
+{
+    System.out.println(pq.poll());
+}
+```
+
+Output
+
+```
+10
+20
+30
+50
+```
+
+---
+
+# 5. Constructor Using Another PriorityQueue
+
+### Syntax
+
+```java
