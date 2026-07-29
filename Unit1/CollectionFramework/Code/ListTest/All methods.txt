@@ -1,0 +1,73 @@
+1. Common List Methods (ArrayList & LinkedList)
+Method	Description
+add(E e)	Add element at end
+add(int index, E e)	Add at specific index
+addAll(Collection c)	Add all elements
+addAll(int index, Collection c)	Add collection at index
+get(int index)	Get element
+set(int index, E e)	Replace element
+remove(int index)	Remove by index
+remove(Object o)	Remove by value
+removeAll(Collection c)	Remove matching elements
+retainAll(Collection c)	Keep common elements
+clear()	Remove all elements
+contains(Object o)	Check element exists
+containsAll(Collection c)	Check all elements exist
+indexOf(Object o)	First occurrence index
+lastIndexOf(Object o)	Last occurrence index
+size()	Number of elements
+isEmpty()	Check empty
+iterator()	Get iterator
+listIterator()	Bidirectional iterator
+listIterator(int index)	Iterator from index
+subList(int from, int to)	Get sublist
+toArray()	Convert to array
+toArray(T[] arr)	Convert to typed array
+forEach()	Traverse using lambda
+removeIf()	Remove using condition
+replaceAll()	Replace every element
+sort(Comparator)	Sort list
+stream()	Create stream
+parallelStream()	Parallel stream
+spliterator()	Spliterator
+equals()	Compare lists
+hashCode()	Hash code
+2. LinkedList-Only Methods (Deque/Queue)
+Method	Description
+addFirst()	Add at beginning
+addLast()	Add at end
+getFirst()	First element
+getLast()	Last element
+removeFirst()	Remove first
+removeLast()	Remove last
+offer()	Add as queue
+offerFirst()	Add at front
+offerLast()	Add at end
+peek()	View first element
+peekFirst()	View first
+peekLast()	View last
+poll()	Remove first
+pollFirst()	Remove first
+pollLast()	Remove last
+push()	Push onto stack
+pop()	Pop from stack
+element()	Get head (exception if empty)
+remove()	Remove head
+descendingIterator()	Reverse traversal
+3. Important ArrayList Methods
+
+ArrayList has no extra public methods beyond the List interface that you commonly use. The most important are:
+
+add()
+get()
+set()
+remove()
+contains()
+indexOf()
+size()
+clear()
+sort()
+replaceAll()
+removeIf()
+forEach()
+stream()
