@@ -1,0 +1,44 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Basic Calculator</title>
+</head>
+
+<body>
+
+    <h1>Basic Calculator</h1>
+
+    <form action="calculator" method="post">
+
+        <label>Enter First Number:</label>
+        <input type="number" name="num1" required>
+
+        <br><br>
+
+        <label>Enter Second Number:</label>
+        <input type="number" name="num2" required>
+
+        <br><br>
+
+        <label>Select Operation:</label>
+
+        <select name="operation">
+            <option value="add">Addition</option>
+            <option value="subtract">Subtraction</option>
+            <option value="multiply">Multiplication</option>
+            <option value="divide">Division</option>
+        </select>
+
+        <br><br>
+
+        <button type="submit">
+            Calculate
+        </button>
+
+    </form>
+
+</body>
+
+</html>
