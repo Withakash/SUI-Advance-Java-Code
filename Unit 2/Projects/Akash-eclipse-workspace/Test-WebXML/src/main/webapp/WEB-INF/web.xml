@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app>
+
+    <servlet>
+        <servlet-name>HelloServlet</servlet-name>
+        <servlet-class>com.test.HelloServlet</servlet-class>  
+        
+        <init-param>
+             <param-name>Password</param-name>
+             <param-value>Yadav@1234</param-value>
+          </init-param>
+    </servlet>
+    
+    <servlet>
+          <servlet-name>HelloServlet1</servlet-name>
+          <servlet-class>com.test.HelloServlet1</servlet-class>
+          <init-param>
+             <param-name>Password</param-name>
+             <param-value>Akash@1234</param-value>
+          </init-param>
+    </servlet>
+    
+    <context-param>
+    <param-name>Username</param-name>
+     <param-value>Akash Yadav</param-value>
+    </context-param>
+    
+    <servlet-mapping>
+        <servlet-name>HelloServlet</servlet-name>
+        <url-pattern>/hellos</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>HelloServlet1</servlet-name>
+        <url-pattern>/hellos1</url-pattern>
+    </servlet-mapping>
+
+</web-app>
