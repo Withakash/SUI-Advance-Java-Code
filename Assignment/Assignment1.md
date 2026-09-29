@@ -195,7 +195,7 @@ session.invalidate();
 
 ---
 
-### Q10. What is HttpSession?
+### Q13. What is HttpSession?
 
 > **HttpSession is an interface in the Servlet API used to maintain information associated with a particular user across multiple HTTP requests.**
 
