@@ -161,8 +161,8 @@ Use `jakarta.servlet.*` imports with Tomcat 10; do not use `javax.servlet.*`.
 
 The JSP uses JSTL tags, so add both JAR files to `WEB-INF/lib`.
 
-- [JSTL API 2.0.0 JAR](https://repo1.maven.org/maven2/jakarta/servlet/jsp/jstl/jakarta.servlet.jsp.jstl-api/2.0.0/jakarta.servlet.jsp.jstl-api-2.0.0.jar)
-- [JSTL implementation 2.0.0 JAR](https://repo1.maven.org/maven2/org/glassfish/web/jakarta.servlet.jsp.jstl/2.0.0/jakarta.servlet.jsp.jstl-2.0.0.jar)
+- [JSTL API 3.0.2 JAR](https://repo1.maven.org/maven2/jakarta/servlet/jsp/jstl/jakarta.servlet.jsp.jstl-api/3.0.2/jakarta.servlet.jsp.jstl-api-3.0.2.jar)
+- [JSTL implementation 3.0.1 JAR](https://repo1.maven.org/maven2/org/glassfish/web/jakarta.servlet.jsp.jstl/3.0.1/jakarta.servlet.jsp.jstl-3.0.1.jar)
 
 Folder location:
 
