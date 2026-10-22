@@ -1,18 +1,12 @@
 # Advanced Java --- Final Exam Preparation Assignment
 
-**Instructions** - Attempt the questions as directed by your
-instructor. - Write answers in your own words and include neat, labelled
-diagrams wherever relevant. - For descriptive questions, support your
-explanations with suitable examples where appropriate.
+
 
 ------------------------------------------------------------------------
 
 ## Assignment 1
 
 ### Part A --- Short-Answer Questions
-
-**Attempt any 8 out of the following 10 questions.**\
-**Marks: 8 × 5 = 40**
 
 1.  Define Java Enterprise Edition (Java EE) and state its purpose in
     enterprise application development.
@@ -36,9 +30,6 @@ explanations with suitable examples where appropriate.
 
 ### Part B --- Long-Answer Questions
 
-**Attempt any 2 out of the following 4 questions.**\
-**Marks: 2 × 10 = 20**
-
 1.  Present the steps involved in packaging, deploying, and running a
     Java EE application on an application server.
 2.  Discuss the different approaches used to maintain user state across
@@ -53,9 +44,6 @@ explanations with suitable examples where appropriate.
 ## Assignment 2
 
 ### Part A --- Short-Answer Questions
-
-**Attempt any 8 out of the following 10 questions.**\
-**Marks: 8 × 5 = 40**
 
 1.  What is meant by a Java EE application server? Explain its function
     in hosting enterprise applications.
@@ -79,9 +67,6 @@ explanations with suitable examples where appropriate.
     how they use HTTP.
 
 ### Part B --- Long-Answer Questions
-
-**Attempt any 2 out of the following 4 questions.**\
-**Marks: 2 × 10 = 20**
 
 1.  Explain the layered architecture of a Java EE application with a
     neat, labelled diagram.
